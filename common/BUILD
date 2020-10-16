@@ -20,6 +20,7 @@
 exports_files(["archiver.py", "common.py"])
 
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+load("//common:rules.bzl", "make_a_targz")
 
 bzl_library(
     name = "lib",
@@ -57,4 +58,27 @@ py_binary(
     srcs = ["assemble-versioned.py"],
     deps = [":common"],
     visibility = ["//visibility:public"]
+)
+
+exports_files(
+    ["hello.txt", "lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-nullam-malesuada-elit-nec-eros-vehicula-eget-interdum-enim-pharetra.txt"],
+)
+
+my_targz_files = {
+    "lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-nullam-malesuada-elit-nec-eros-vehicula-eget-interdum-enim-pharetra.txt": "lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-nullam-malesuada-elit-nec-eros-vehicula-eget-interdum-enim-pharetra/directory2/directory3/directory4/directory5/directory6/directory7/directory8/directory9/lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-nullam-malesuada-elit-nec-eros-vehicula-eget-interdum-enim-pharetra.txt",
+    "hello.txt": "directory1/directory2/directory3/directory4/directory5/directory6/directory7/directory8/directory9/hello.txt",
+}
+
+make_a_targz(
+    name = "our-targz",
+    deps = ["common.tgz"],
+    files = {},
+    output_filename = "our-targz",
+)
+
+make_a_targz(
+    name = "bad-targz",
+    deps = ["our-targz.tar.gz"],
+    files = {},
+    output_filename = "bad-targz",
 )

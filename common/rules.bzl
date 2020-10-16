@@ -113,6 +113,17 @@ def assemble_targz(name,
     )
 
 
+def make_a_targz(name, output_filename, files, deps = []):
+    pkg_tar(
+        name = name,
+        deps = deps,
+        extension = "tar.gz",
+        package_dir_file = "package-dir.txt",
+        files = files,
+        modes = {},
+    )
+
+
 def _assemble_archive_prefix_file_impl(ctx):
     version = ctx.var.get('version', '')
 
